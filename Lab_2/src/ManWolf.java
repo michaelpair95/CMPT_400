@@ -15,6 +15,7 @@ public class ManWolf {
   private static final int q10 = 10;
 
   private static int state = q0;
+  //private static int loc = 10;
 
   static private int[][] delta =
       { // w   g   c   n
@@ -32,45 +33,46 @@ public class ManWolf {
       };
 
   public static void process(String in) {
-    int loc = 4; // 4 is used just as an initialization
+    int loc=4; // 4 is used just as an initialization
     for (int i = 0; i < in.length(); i++) {
 
       char c = in.charAt(i);
 
       switch (c) {
 
-        case 'n':
+        case 'w':
           loc = 0;
           break;
 
-        case 'w':
+        case 'g':
           loc = 1;
           break;
 
-        case 'g':
+        case 'c':
           loc = 2;
           break;
 
-        case 'c':
+        case 'n':
           loc = 3;
           break;
 
         default:
           state = q10;
           break;
-
       }
-    }
+
       try {
         state = delta[state][loc];
         if (state == q10 ) {
           System.out.println("This is a Solution");
-        } else {
+        } else if (state == q5 || state != q10) {
           System.out.println("This is not a solution");
         }
       } catch (ArrayIndexOutOfBoundsException ex) {
-        state = delta[state][4];
+        state = delta[state][10];
       }
+
+    }
 
 
   }
