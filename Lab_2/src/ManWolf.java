@@ -63,17 +63,16 @@ public class ManWolf {
 
       try {
         state = delta[state][loc];
-        if (state == q10 ) {
-          System.out.println("This is a Solution");
-        } else if (state == q5 || state != q10) {
-          System.out.println("This is not a solution");
-        }
       } catch (ArrayIndexOutOfBoundsException ex) {
         state = delta[state][10];
       }
-
     }
 
+    if (state == q10 ) {
+      System.out.println("This is a Solution");
+    } else if (state == q5 || state != q10) {
+      System.out.println("This is not a solution");
+    }
 
   }
 
