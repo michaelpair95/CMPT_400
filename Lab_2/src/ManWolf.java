@@ -1,5 +1,12 @@
 /**
- * Created by michaelpair on 2/12/16.
+ * file: ManWolf.java
+ * author: Michael Pair
+ * course: CMPT 440
+ * assignment: Lab 2
+ * due date: February 15, 2016
+ * version: 1.0
+ *
+ * This file contains the ManWolf class which create the DFA
  */
 public class ManWolf {
   private static final int q0 = 0;
