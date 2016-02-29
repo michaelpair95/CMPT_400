@@ -1,0 +1,10 @@
+9 pts
+
+The essays address the questions; however, they are shorter than what it was
+required.
+
+The DFA is lacking the following:
+- an arrow indicating where everything starts; it is convention to do so.
+- proper handling of spaces, e.g., for[space](...
+
+- Dr. Rivas
