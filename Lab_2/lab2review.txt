@@ -1,0 +1,75 @@
+8 pts
+
+Correctness:
+
+- The program produces correct output.
+
+- The program produces output in the correct format.
+
+
+Style:
+
+- Correct indentation
+
+- Poor block comments
+
+- Both files have incorrect method header formatting. Each function must have a
+  comment block before it, which gives the function name, describes each
+  parameter and the return value (if any), and explains the purpose of the
+  function. Refer to the parameters by name, not by type. Here is an example:
+/**
+ * factorial
+ *
+ * This function computes the factorial of the given input. The factorial is
+ * defined as factorial(n) = n! = n * (n-1) * (n-2) * ... * 3 * 2 * 1.
+ * 
+ * Parameters:
+ *   n: the number on which to compute the factorial
+ * 
+ * Return value: the factorial of n, or 1 if n <= 0.
+ */
+public static int factorial(int n) {
+  if (n <= 0) {
+    return 1;
+  }
+  return n * factorial(n - 1);
+}
+
+- Classes do not have a description. Each class declaration must have a comment
+  block before it, which gives the class name and describes the purpose of the
+  class. Here is an example:
+/**
+ * SinglyLinkedList
+ * 
+ * This class implements a linked list with single forward links, and supports
+ * dynamic addition and deletion of nodes. 
+ */
+public class SinglyLinkedList {
+  // ...
+}
+
+
+Efficiency and Other Comments:
+
+- Program is efficient as implemented.
+
+- Your program is supposed to run by taking input as an argument in command
+  line, as follows (from the handout):
+--
+$ java driverDFA gncgwng 
+--
+but your program is making me do this
+--
+$ java driverDFA
+gncgwng
+--
+which is not what you were asked to do in the handout.
+
+
+CSV files:
+
+- CSV files contain State-transition table and description of states.
+
+
+
+- Dr. Rivas
