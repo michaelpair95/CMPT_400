@@ -1,0 +1,1 @@
+var var var = " you shouldnt name a variable var beause when you try assigning something to var it thinks youre trying to declare another variable and theres no comment "

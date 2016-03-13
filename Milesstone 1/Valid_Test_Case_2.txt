@@ -1,0 +1,1 @@
+grade = 100 + " is the grade michael would like " print ( grade ) *- Michael hopes everything is write so he can get an a -*

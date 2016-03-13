@@ -1,0 +1,1 @@
+function58 = " whats that number doing there " *- you cant use numbers in assignment names or variable names -* print ( 21 + function58 )
