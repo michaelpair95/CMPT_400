@@ -18,9 +18,10 @@ import javafx.geometry.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.lang.reflect.Array;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class Main extends Application {
@@ -67,16 +68,20 @@ public class Main extends Application {
     private static final int q39 =39 ;
     private static final int q40 =40 ;
     private static final int q41 = 41;
-    private static final int q50 = 50;
+    private static final int q50 = 42;
 
     public static String blackText = "";
     public static String coloredText = "";
-    public static String success = "";
 
-    private static int state = q0;
+    public static String varStatement;
+    public static String printStatement;
+    public static String identStatement;
+    public static String intStatement;
+    public static String stringStatement;
+    public static String commentStatement;
+    public static String errorStatement;
 
 
-    //static HTMLEditor htmlEditor;
 
     @Override
     public void start(Stage stage) {
@@ -99,7 +104,8 @@ public class Main extends Application {
         colorButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent arg0) {
                 blackText = htmlEditor.getHtmlText();
-                colorChanger();
+                eliminateHTMLTags(blackText);
+                codeChecker(blackText);
                 htmlEditor.setHtmlText(coloredText);
             }
             });
@@ -121,6 +127,19 @@ public class Main extends Application {
 
     }
 
+    private void eliminateHTMLTags(String htmlText) {
+
+        Pattern pattern = Pattern.compile("<[^>]*>");
+        Matcher matcher = pattern.matcher(htmlText);
+        final StringBuffer sb = new StringBuffer(htmlText.length());
+        while(matcher.find()) {
+            matcher.appendReplacement(sb, " ");
+        }
+        matcher.appendTail(sb);
+        blackText = sb.toString().trim();
+
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -131,21 +150,19 @@ public class Main extends Application {
     // print ( x ) x = 5
 
 
-    public void colorChanger(){
+    public void colorizer(){
 // if this loc, output letter in this color
-        codeChecker(blackText);
 
-       coloredText = success;
+
 
     }
 
     public void codeChecker(String in){
 
-    int debug;
     int loc =  0; //only used for initialization
+        int state = q0;
         for (int i = 0; i < in.length(); i++) {
             char c = in.charAt(i);
-            success = "";
 
             switch (c){
                 case 'v':
@@ -246,60 +263,87 @@ public class Main extends Application {
 
             try {
                 state = delta[state][loc];
-                success += Integer.toString(state);
+                System.out.println("q" + state + " | " + loc);
             } catch (ArrayIndexOutOfBoundsException ex) {
                 //state = q50;
-                success += Integer.toString(state);
+            }
+            if (state == q5){
+                varStatement = in;
+                System.out.println("var " + in);
+            } else if (state == q18){
+                printStatement = in;
+                System.out.println("print " + in);
+            } else if (state == q28){
+                identStatement = in;
+                System.out.println("ident " + in);
+            } else if (state == q29){
+                intStatement = in;
+                System.out.println("int " + in);
+            } else if (state == q35){
+                stringStatement = in;
+                System.out.println("string " + in);
+            } else if (state == q41){
+                commentStatement = in;
+                System.out.println("comment " + in);
+            } else if (state == q50){
+                errorStatement = in;
+                System.out.println("error " + in);
+            } else {
+
             }
 
         }
-
+            colorizer();
         }
 
     static private int[][] delta =
             {
                     // A = {a-z} - {v,a,r,p,i,n,t}
-                    // 1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17
+                    // 0    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16
                     // v    a    r    p    i    n    t    A  {0-9}  +    =    _    "    (    )    *    -
-                    { q1, q24, q24,  q6, q24, q24, q24, q24, q50, q50, q50, q50, q50, q50, q50, q36, q50},
-                    {q24,  q2, q24, q24, q24, q24, q24, q24, q50, q50, q50, q50, q50, q50, q50, q50, q50},
-                    {q24, q24,  q3, q24, q24, q24, q24, q24, q50, q50, q50, q50, q50, q50, q50, q50, q50},
-                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50,  q4, q50, q50, q50, q50, q50},
-                    { q5,  q5,  q5,  q5,  q5,  q5,  q5,  q5, q50, q50, q50, q50, q50, q50, q50, q50, q50},
-                    { q5,  q5,  q5,  q5,  q5,  q5,  q5,  q5, q50, q50, q50,  q0, q50, q50, q50, q36, q50},
-                    {q24, q24,  q7, q24, q24, q24, q24, q24, q50, q50, q50, q50, q50, q50, q50, q50, q50},
-                    {q24, q24, q24, q24,  q8, q24, q24, q24, q50, q50, q50, q50, q50, q50, q50, q50, q50},
-                    {q24, q24, q24, q24, q24,  q9, q24, q24, q50, q50, q50, q50, q50, q50, q50, q50, q50},
-                    {q24, q24, q24, q24, q24, q24, q10, q24, q50, q50, q50, q50, q50, q50, q50, q50, q50},
-                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q11, q50, q50, q50, q50, q50},
-                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q12, q50, q50, q50},
-                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q13, q50, q50, q50, q50, q50},
-                    {q23, q23, q23, q23, q23, q23, q23, q23, q14, q50, q50, q50, q19, q50, q50, q50, q50},
-                    {q50, q50, q50, q50, q50, q50, q50, q50, q14, q13, q50, q17, q50, q50, q50, q50, q50},
-                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q18, q50, q50},
-                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50,  q0, q50, q50, q50, q36, q50},
-                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q20, q50, q50, q50, q50, q50},
-                    {q20, q20, q20, q20, q20, q20, q20, q20, q50, q50, q50, q21, q50, q50, q50, q50, q50},
-                    {q20, q20, q20, q20, q20, q20, q20, q20, q50, q50, q50, q50, q22, q50, q50, q50, q50},
-                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q17, q50, q50, q50, q50, q50},
-                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q17, q50, q50, q50, q50, q50},
-                    {q24, q24, q24, q24, q24, q24, q24, q24, q50, q50, q50, q25, q50, q50, q50, q50, q50},
-                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q26, q50, q50, q50, q50, q50, q50},
-                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q27, q50, q50, q50, q50, q50},
-                    {q28, q28, q28, q28, q28, q28, q28, q28, q29, q50, q50, q50, q32, q50, q50, q50, q50},
-                    {q28, q28, q28, q28, q28, q28, q28, q28, q50, q50, q50,  q0, q50, q50, q50, q36, q50},
-                    {q50, q50, q50, q50, q50, q50, q50, q29, q50, q27, q50,  q0, q50, q50, q50, q36, q50},
-                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q33, q50, q50, q50, q50, q50},
-                    {q33, q33, q33, q33, q33, q33, q33, q33, q50, q50, q50, q34, q50, q50, q50, q50, q50},
-                    {q33, q33, q33, q33, q33, q33, q33, q33, q50, q50, q50, q50, q35, q50, q50, q50, q50},
-                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50,  q0, q50, q50, q50, q36, q50},
-                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q37},
-                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q38, q50, q50, q50, q50, q50},
-                    {q38, q38, q38, q38, q38, q38, q38, q38, q50, q50, q50, q39, q50, q50, q50, q50, q50},
-                    {q38, q38, q38, q38, q38, q38, q38, q38, q50, q50, q50, q50, q50, q50, q50, q50, q40},
-                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q41, q50},
-                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50,  q0, q50, q50, q50, q50, q50},
-                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50}
+                    { q1, q24, q24,  q6, q24, q24, q24, q24, q50, q50, q50, q50, q50, q50, q50, q36, q50}, //q0
+                    {q24,  q2, q24, q24, q24, q24, q24, q24, q50, q50, q50, q50, q50, q50, q50, q50, q50}, //q1
+                    {q24, q24,  q3, q24, q24, q24, q24, q24, q50, q50, q50, q50, q50, q50, q50, q50, q50}, //q2
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50,  q4, q50, q50, q50, q50, q50}, //3
+                    { q5,  q5,  q5,  q5,  q5,  q5,  q5,  q5, q50, q50, q50, q50, q50, q50, q50, q50, q50}, //q4
+                    { q5,  q5,  q5,  q5,  q5,  q5,  q5,  q5, q50, q50, q50,  q0, q50, q50, q50, q36, q50}, //q5
+                    {q24, q24,  q7, q24, q24, q24, q24, q24, q50, q50, q50, q50, q50, q50, q50, q50, q50}, //q6
+                    {q24, q24, q24, q24,  q8, q24, q24, q24, q50, q50, q50, q50, q50, q50, q50, q50, q50}, //q7
+                    {q24, q24, q24, q24, q24,  q9, q24, q24, q50, q50, q50, q50, q50, q50, q50, q50, q50}, //q8
+                    {q24, q24, q24, q24, q24, q24, q10, q24, q50, q50, q50, q50, q50, q50, q50, q50, q50}, //q9
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q11, q50, q50, q50, q50, q50}, //q10
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q12, q50, q50, q50}, //q11
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q13, q50, q50, q50, q50, q50}, //q12
+                    {q23, q23, q23, q23, q23, q23, q23, q23, q14, q50, q50, q50, q19, q50, q50, q50, q50}, //q13
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q14, q13, q50, q17, q50, q50, q50, q50, q50}, //q14
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50}, //q15 ---
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50}, //q16 ---
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q18, q50, q50}, //q17
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50,  q0, q50, q50, q50, q36, q50}, //q18
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q20, q50, q50, q50, q50, q50}, //q19
+                    {q20, q20, q20, q20, q20, q20, q20, q20, q50, q50, q50, q21, q50, q50, q50, q50, q50}, //q20
+                    {q20, q20, q20, q20, q20, q20, q20, q20, q50, q50, q50, q50, q22, q50, q50, q50, q50}, //q21
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q17, q50, q50, q50, q50, q50}, //q22
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q17, q50, q50, q50, q50, q50}, //q23
+                    {q24, q24, q24, q24, q24, q24, q24, q24, q50, q50, q50, q25, q50, q50, q50, q50, q50}, //q24
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q26, q50, q50, q50, q50, q50, q50}, //q25
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q27, q50, q50, q50, q50, q50}, //q26
+                    {q28, q28, q28, q28, q28, q28, q28, q28, q29, q50, q50, q50, q32, q50, q50, q50, q50}, //q27
+                    {q28, q28, q28, q28, q28, q28, q28, q28, q50, q50, q50,  q0, q50, q50, q50, q36, q50}, //q28
+                    {q50, q50, q50, q50, q50, q50, q50, q29, q29, q27, q50,  q0, q50, q50, q50, q36, q50}, //q29
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50}, //q30 ---
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50}, //q31 ---
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q33, q50, q50, q50, q50, q50}, //q32
+                    {q33, q33, q33, q33, q33, q33, q33, q33, q50, q50, q50, q34, q50, q50, q50, q50, q50}, //q33
+                    {q33, q33, q33, q33, q33, q33, q33, q33, q50, q50, q50, q50, q35, q50, q50, q50, q50}, //q34
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50,  q0, q50, q50, q50, q36, q50}, //q35
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q37}, //q36
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q38, q50, q50, q50, q50, q50}, //q37
+                    {q38, q38, q38, q38, q38, q38, q38, q38, q50, q50, q50, q39, q50, q50, q50, q50, q50}, //q38
+                    {q38, q38, q38, q38, q38, q38, q38, q38, q50, q50, q50, q50, q50, q50, q50, q50, q40}, //q39
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q41, q50}, //q40
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50,  q0, q50, q50, q50, q50, q50}, //q41
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50}  //q50
             };
 
 
