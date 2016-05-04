@@ -1,5 +1,6 @@
 package sample;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
@@ -23,6 +24,8 @@ import javafx.event.EventHandler;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.scene.text.Text;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
 import java.util.*;
 
 
@@ -75,10 +78,12 @@ public class Main extends Application {
 
     private static int state = q0;
 
-    public static String blackText = "";
-    public static String coloredText = "";
-    public static String splitText[];
-    public static int icounter = 0;
+    private static String blackText = "";
+    private static String coloredText = "<html dir=\"ltr\"><head></head><body contenteditable=\"true\">";
+    private static String splitText[];
+    private static int icounter = 0;
+
+    private static int passcounter = 0;
 
     public static String varStatement;
     public static String printStatement;
@@ -87,8 +92,6 @@ public class Main extends Application {
     public static String stringStatement;
     public static String commentStatement;
     public static String errorStatement;
-
-    public static boolean prevComma;
 
 
     @Override
@@ -112,14 +115,22 @@ public class Main extends Application {
         colorButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent arg0) {
                 blackText = htmlEditor.getHtmlText();
+                //System.out.println(blackText);
                 blackText = blackText.replaceAll("<p>" , ",");
                 eliminateHTMLTags(blackText);
                 blackText = blackText.substring(1);
                 blackText = blackText.replaceAll("  , ", ",");
                 codeChecker(blackText);
                 htmlEditor.setHtmlText(coloredText);
-                System.out.println(coloredText);
-                //htmlEditor.setHtmlText(blackText);
+
+                //reset everything so the button is reusable
+                blackText = "";
+                coloredText = "<html dir=\"ltr\"><head></head><body contenteditable=\"true\">";
+                String splitText[];
+                icounter = 0;
+                state = q0;
+
+
             }
             });
         root.getChildren().addAll(htmlEditor, colorButton);
@@ -163,89 +174,114 @@ public class Main extends Application {
 
 
 
-    // simple test case
-    // print ( x ) x = 5
-
-
     public void statementSorter(String in){
 
         //this splits the different statements into groups of statements
-
         splitText = in.split(",");
 
 
-        //for (int i = 0; i < splitText.length; i++) {
-            //    splitText[i] = splitText[i].replace(splitText[i].substring(splitText[i].length()-1), "");
+            if (state == q5) { // TODO: working
+                 varColorizer(splitText[icounter]);
+                System.out.println("var: " + splitText[icounter]);
+
+            } else if (state == q18) { // TODO: working
+
+                printColorizer(splitText[icounter]);
+
+                System.out.println("print: " + splitText[icounter]);
+
+            } else if (state == q28) { // TODO: CHECK
+                identColorizer(splitText[icounter]);
+
+                System.out.println("ident: " + splitText[icounter]);
+
+            } else if (state == q29) {// TODO: working
+                intColorizer(splitText[icounter]);
+
+                System.out.println("int: " + splitText[icounter]);
+
+            } else if (state == q35) { // TODO: working
+                stringColorizer(splitText[icounter]);
+
+                System.out.println("string: " + splitText[icounter]);
+
+            } else if (state == q41) {// TODO: CHECK COLOR SCHEME
+                commentColorizer(splitText[icounter]);
+
+                System.out.println("comment: " + splitText[icounter]);
+
+            } else if (state == q50) { // TODO: CHECK
+                errorColorizer(splitText[icounter]);
+
+                System.out.println("error: " + splitText[icounter]);
 
 
-            if (state == q5) {
-                varStatement = splitText[icounter];
-                icounter += 1;
-                System.out.println("var: " + splitText[icounter - 1]);
-            } else if (state == q18) {
-                printStatement = splitText[icounter];
-                icounter += 1;
-                System.out.println("print: " + splitText[icounter - 1]);
-            } else if (state == q28) {
-                identStatement = splitText[icounter];
-                icounter += 1;
-                System.out.println("ident: " + splitText[icounter - 1]);
-            } else if (state == q29) {
-                intStatement = splitText[icounter];
-                icounter += 1;
-                System.out.println("int: " + splitText[icounter - 1]);
-            } else if (state == q35) {
-                stringStatement = splitText[icounter];
-                icounter += 1;
-                System.out.println("string: " + splitText[icounter - 1]);
-            } else if (state == q41) {
-                commentStatement = splitText[icounter];
-                icounter += 1;
-                System.out.println("comment: " + splitText[icounter - 1]);
-            } else if (state == q50) {
-                errorStatement = splitText[icounter];
-                icounter += 1;
+            } /*else if (state != q5 || state != q18 || state != q28 || state != q29 || state != q35 || state != q41 || state != q50) {
+                System.out.println("counter: " + icounter);
+                errorColorizer(splitText[icounter]);
+                if (splitText.length > icounter){
+                    icounter += 1;
+                }
                 System.out.println("error: " + splitText[icounter - 1]);
-            }
+            }*/
 
     }
 
+    /*
+    <html dir="ltr"><head></head><body contenteditable="true">
 
-    public void colorizer(){
-// if this loc, output letter in this color
+    <p><font face="Lucida Grande" color="#669966">var x</font></p>
 
-        if (varStatement.length()>0){
-        coloredText += ("<body style='color:blue;'/>" + varStatement);
-        }
-        if (printStatement.length()>0){
-            coloredText += ("<body style='color:purple;'/>" + printStatement);
-        }/*
-        if (identStatement.length()>0){
+    <p><font face="Lucida Grande" color="#331a80">print ( y )</font></p>
 
-        }
-        if (intStatement.length()>0){
-
-        }
-        if (stringStatement.length()>0){
-
-        }
-        if (commentStatement.length()>0){
-
-        }
-        if (errorStatement.length()>0){
-            coloredText += ("<body style='color:red;'/>" + blackText);
-        }*/
+    </body></html>
 
 
+     */
+
+    public void varColorizer(String in){
+        coloredText += "<p><font face=\"Lucida Grande\" color=\"#002bff\">" + in + "</font></p>";
     }
+
+    public void printColorizer(String in){
+        coloredText += "<p><font face=\"Lucida Grande\" color=\"#7c00ff\">" + in + "</font></p>";
+    }
+
+    public void identColorizer(String in){
+        coloredText += "<p><font face=\"Lucida Grande\" color=\"#00ff45\">" + in + "</font></p>";
+    }
+
+    public void intColorizer(String in){
+        coloredText += "<p><font face=\"Lucida Grande\" color=\"#00ecff\">" + in + "</font></p>";
+    }
+
+    public void stringColorizer(String in){
+        coloredText += "<p><font face=\"Lucida Grande\" color=\"#ffb400\">" + in + "</font></p>";
+    }
+
+    public void commentColorizer(String in){
+        coloredText += "<p><font face=\"Lucida Grande\" color=\"#8d8d8d\" style=\"background-color: ##fff400 \">" + in + "</font></p>";
+    }
+
+    public void errorColorizer(String in){
+        coloredText += "<p><font face=\"Lucida Grande\" color=\"#ff0000\">" + in + "</font></p>";
+    }
+
+
 
     public void codeChecker(String in){
         in = in.substring(1);
-        System.out.println(in);
+        System.out.println("in: " + in);
     int loc =  0; //only used for initialization
-        for (int i = 0; i < in.length(); i++) {
-            char c = in.charAt(i);
-            //boolean prevComma = false; //initializes the boolean
+
+        splitText = in.split(",");
+
+        for (int j = 0; j < splitText.length; j++) {
+            String temp = splitText[j];
+
+        for (int i = 0; i < temp.length(); i++) {
+            char c = temp.charAt(i);
+            passcounter++;
 
             switch (c){
                 case 'v':
@@ -350,16 +386,18 @@ public class Main extends Application {
             }
 
             try {
-                state = delta[state][loc];
                 System.out.println("q" + state + " | " + loc);
+                state = delta[state][loc];
             } catch (ArrayIndexOutOfBoundsException ex) {
                 state = q50;
             }
             statementSorter(in);
 
         }
-
-        colorizer();
+            icounter +=1;
+            passcounter = 0;
+        }
+        coloredText += "</body></html>";
 
         }
 

@@ -64,11 +64,10 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="126" column="44" selection-start-line="126" selection-start-column="44" selection-end-line="126" selection-end-column="44" />
+            <state relative-caret-position="214">
+              <caret line="274" column="48" selection-start-line="274" selection-start-column="48" selection-end-line="274" selection-end-column="48" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1462374209000" expanded="false" signature="3612:3706" placeholder="(arg0) → {" />
               </folding>
             </state>
           </provider>
@@ -749,12 +748,12 @@
       <workItem from="1462289608363" duration="23000" />
       <workItem from="1462297168665" duration="3917000" />
       <workItem from="1462325057699" duration="8746000" />
-      <workItem from="1462368426847" duration="5604000" />
+      <workItem from="1462368426847" duration="20625000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="41631000" />
+    <option name="totallyTimeSpent" value="56652000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="873" extended-state="6" />
@@ -841,7 +840,9 @@
     </ignored-roots>
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="3" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="antWorkspaceConfiguration">
@@ -855,7 +856,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1462374209000" expanded="false" signature="3612:3706" placeholder="(arg0) → {" />
           </folding>
         </state>
       </provider>
@@ -885,7 +885,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1462374209000" expanded="false" signature="3612:3706" placeholder="(arg0) → {" />
           </folding>
         </state>
       </provider>
@@ -915,7 +914,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1462374209000" expanded="false" signature="3612:3706" placeholder="(arg0) → {" />
           </folding>
         </state>
       </provider>
@@ -945,7 +943,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1462374209000" expanded="false" signature="3612:3706" placeholder="(arg0) → {" />
           </folding>
         </state>
       </provider>
@@ -975,7 +972,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1462374209000" expanded="false" signature="3612:3706" placeholder="(arg0) → {" />
           </folding>
         </state>
       </provider>
@@ -1005,7 +1001,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1462374209000" expanded="false" signature="3612:3706" placeholder="(arg0) → {" />
           </folding>
         </state>
       </provider>
@@ -1035,7 +1030,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1462374209000" expanded="false" signature="3612:3706" placeholder="(arg0) → {" />
           </folding>
         </state>
       </provider>
@@ -1054,7 +1048,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1462374209000" expanded="false" signature="3612:3706" placeholder="(arg0) → {" />
           </folding>
         </state>
       </provider>
@@ -1084,7 +1077,6 @@
           <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1462374209000" expanded="false" signature="3612:3706" placeholder="(arg0) → {" />
           </folding>
         </state>
       </provider>
@@ -1114,7 +1106,6 @@
           <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1462374209000" expanded="false" signature="3612:3706" placeholder="(arg0) → {" />
           </folding>
         </state>
       </provider>
@@ -1144,7 +1135,6 @@
           <caret line="18" column="37" selection-start-line="18" selection-start-column="37" selection-end-line="18" selection-end-column="37" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1462374209000" expanded="false" signature="3612:3706" placeholder="(arg0) → {" />
           </folding>
         </state>
       </provider>
@@ -1174,7 +1164,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1462374209000" expanded="false" signature="3612:3706" placeholder="(arg0) → {" />
           </folding>
         </state>
       </provider>
@@ -1204,7 +1193,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1462374209000" expanded="false" signature="3612:3706" placeholder="(arg0) → {" />
           </folding>
         </state>
       </provider>
@@ -1234,7 +1222,6 @@
           <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1462374209000" expanded="false" signature="3612:3706" placeholder="(arg0) → {" />
           </folding>
         </state>
       </provider>
@@ -1258,15 +1245,15 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="126" column="44" selection-start-line="126" selection-start-column="44" selection-end-line="126" selection-end-column="44" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <marker date="1462374209000" expanded="false" signature="3612:3706" placeholder="(arg0) → {" />
-          </folding>
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
@@ -1277,15 +1264,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml">
+    <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="214">
+          <caret line="274" column="48" selection-start-line="274" selection-start-column="48" selection-end-line="274" selection-end-column="48" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
   </component>
