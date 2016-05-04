@@ -22,6 +22,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.scene.text.Text;
+import java.util.*;
+
 
 
 public class Main extends Application {
@@ -70,8 +73,11 @@ public class Main extends Application {
     private static final int q41 = 41;
     private static final int q50 = 42;
 
+    private static int state = q0;
+
     public static String blackText = "";
     public static String coloredText = "";
+    public static String splitText[];
 
     public static String varStatement;
     public static String printStatement;
@@ -80,7 +86,6 @@ public class Main extends Application {
     public static String stringStatement;
     public static String commentStatement;
     public static String errorStatement;
-
 
 
     @Override
@@ -104,9 +109,19 @@ public class Main extends Application {
         colorButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent arg0) {
                 blackText = htmlEditor.getHtmlText();
+                blackText = blackText.replaceAll("<p>" , ",");
+                System.out.println(blackText);
                 eliminateHTMLTags(blackText);
+                blackText = blackText.substring(1);
+                splitText = blackText.split(",");
+
+                for(int i=0; i < splitText.length; i++){
+                    System.out.println(splitText[i]);
+                }
+
                 codeChecker(blackText);
-                htmlEditor.setHtmlText(coloredText);
+                //htmlEditor.setHtmlText(coloredText);
+                htmlEditor.setHtmlText(blackText);
             }
             });
         root.getChildren().addAll(htmlEditor, colorButton);
@@ -127,17 +142,19 @@ public class Main extends Application {
 
     }
 
-    private void eliminateHTMLTags(String htmlText) {
 
-        Pattern pattern = Pattern.compile("<[^>]*>");
-        Matcher matcher = pattern.matcher(htmlText);
-        final StringBuffer sb = new StringBuffer(htmlText.length());
-        while(matcher.find()) {
-            matcher.appendReplacement(sb, " ");
-        }
-        matcher.appendTail(sb);
-        blackText = sb.toString().trim();
 
+
+    private void eliminateHTMLTags(String temp) {
+
+            Pattern pattern = Pattern.compile("<[^>]*>");
+            Matcher matcher = pattern.matcher(temp);
+            final StringBuffer sb = new StringBuffer(temp.length());
+            while (matcher.find()) {
+                matcher.appendReplacement(sb, " ");
+            }
+            matcher.appendTail(sb);
+            blackText = sb.toString().trim();
     }
 
     public static void main(String[] args) {
@@ -149,10 +166,32 @@ public class Main extends Application {
     // simple test case
     // print ( x ) x = 5
 
+    
 
     public void colorizer(){
 // if this loc, output letter in this color
 
+        if (varStatement.length()>0){
+        coloredText += ("<body style='color:blue;'/>" + blackText);
+        } /*
+        if (printStatement.length()>0){
+
+        }
+        if (identStatement.length()>0){
+
+        }
+        if (intStatement.length()>0){
+
+        }
+        if (stringStatement.length()>0){
+
+        }
+        if (commentStatement.length()>0){
+
+        }
+        if (errorStatement.length()>0){
+            coloredText += ("<body style='color:red;'/>" + blackText);
+        }*/
 
 
     }
@@ -160,7 +199,6 @@ public class Main extends Application {
     public void codeChecker(String in){
 
     int loc =  0; //only used for initialization
-        int state = q0;
         for (int i = 0; i < in.length(); i++) {
             char c = in.charAt(i);
 
@@ -265,35 +303,36 @@ public class Main extends Application {
                 state = delta[state][loc];
                 System.out.println("q" + state + " | " + loc);
             } catch (ArrayIndexOutOfBoundsException ex) {
-                //state = q50;
+                state = q50;
             }
-            if (state == q5){
-                varStatement = in;
-                System.out.println("var " + in);
-            } else if (state == q18){
-                printStatement = in;
-                System.out.println("print " + in);
-            } else if (state == q28){
-                identStatement = in;
-                System.out.println("ident " + in);
-            } else if (state == q29){
-                intStatement = in;
-                System.out.println("int " + in);
-            } else if (state == q35){
-                stringStatement = in;
-                System.out.println("string " + in);
-            } else if (state == q41){
-                commentStatement = in;
-                System.out.println("comment " + in);
-            } else if (state == q50){
-                errorStatement = in;
-                System.out.println("error " + in);
-            } else {
 
-            }
+
+          if (state == q5){
+            varStatement = in;
+            System.out.println("var " + in);
+        } else if (state == q18){
+            printStatement = in;
+            System.out.println("print " + in);
+        } else if (state == q28){
+            identStatement = in;
+            System.out.println("ident " + in);
+        } else if (state == q29){
+            intStatement = in;
+            System.out.println("int " + in);
+        } else if (state == q35){
+            stringStatement = in;
+            System.out.println("string " + in);
+        } else if (state == q41){
+            commentStatement = in;
+            System.out.println("comment " + in);
+        } else if (state == q50){
+            errorStatement = in;
+            System.out.println("error " + in);
+        }
+
 
         }
-            colorizer();
+        colorizer();
         }
 
     static private int[][] delta =
