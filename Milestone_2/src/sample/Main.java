@@ -181,6 +181,7 @@ public class Main extends Application {
 
 
             if (state == q5) { // TODO: working
+
                  varColorizer(splitText[icounter]);
                 System.out.println("var: " + splitText[icounter]);
 
