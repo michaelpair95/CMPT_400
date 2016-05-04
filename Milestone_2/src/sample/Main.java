@@ -78,6 +78,7 @@ public class Main extends Application {
     public static String blackText = "";
     public static String coloredText = "";
     public static String splitText[];
+    public static int icounter = 0;
 
     public static String varStatement;
     public static String printStatement;
@@ -86,6 +87,8 @@ public class Main extends Application {
     public static String stringStatement;
     public static String commentStatement;
     public static String errorStatement;
+
+    public static boolean prevComma;
 
 
     @Override
@@ -105,23 +108,18 @@ public class Main extends Application {
         grid.setHgap(10);
 
         final HTMLEditor htmlEditor = new HTMLEditor();
-        Button colorButton = new Button("Verify and color program");
+        final Button colorButton = new Button("Verify and color program");
         colorButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent arg0) {
                 blackText = htmlEditor.getHtmlText();
                 blackText = blackText.replaceAll("<p>" , ",");
-                System.out.println(blackText);
                 eliminateHTMLTags(blackText);
                 blackText = blackText.substring(1);
-                splitText = blackText.split(",");
-
-                for(int i=0; i < splitText.length; i++){
-                    System.out.println(splitText[i]);
-                }
-
+                blackText = blackText.replaceAll("  , ", ",");
                 codeChecker(blackText);
-                //htmlEditor.setHtmlText(coloredText);
-                htmlEditor.setHtmlText(blackText);
+                htmlEditor.setHtmlText(coloredText);
+                System.out.println(coloredText);
+                //htmlEditor.setHtmlText(blackText);
             }
             });
         root.getChildren().addAll(htmlEditor, colorButton);
@@ -141,6 +139,8 @@ public class Main extends Application {
         );
 
     }
+
+
 
 
 
@@ -166,17 +166,60 @@ public class Main extends Application {
     // simple test case
     // print ( x ) x = 5
 
-    
+
+    public void statementSorter(String in){
+
+        //this splits the different statements into groups of statements
+
+        splitText = in.split(",");
+
+
+        //for (int i = 0; i < splitText.length; i++) {
+            //    splitText[i] = splitText[i].replace(splitText[i].substring(splitText[i].length()-1), "");
+
+
+            if (state == q5) {
+                varStatement = splitText[icounter];
+                icounter += 1;
+                System.out.println("var: " + splitText[icounter - 1]);
+            } else if (state == q18) {
+                printStatement = splitText[icounter];
+                icounter += 1;
+                System.out.println("print: " + splitText[icounter - 1]);
+            } else if (state == q28) {
+                identStatement = splitText[icounter];
+                icounter += 1;
+                System.out.println("ident: " + splitText[icounter - 1]);
+            } else if (state == q29) {
+                intStatement = splitText[icounter];
+                icounter += 1;
+                System.out.println("int: " + splitText[icounter - 1]);
+            } else if (state == q35) {
+                stringStatement = splitText[icounter];
+                icounter += 1;
+                System.out.println("string: " + splitText[icounter - 1]);
+            } else if (state == q41) {
+                commentStatement = splitText[icounter];
+                icounter += 1;
+                System.out.println("comment: " + splitText[icounter - 1]);
+            } else if (state == q50) {
+                errorStatement = splitText[icounter];
+                icounter += 1;
+                System.out.println("error: " + splitText[icounter - 1]);
+            }
+
+    }
+
 
     public void colorizer(){
 // if this loc, output letter in this color
 
         if (varStatement.length()>0){
-        coloredText += ("<body style='color:blue;'/>" + blackText);
-        } /*
-        if (printStatement.length()>0){
-
+        coloredText += ("<body style='color:blue;'/>" + varStatement);
         }
+        if (printStatement.length()>0){
+            coloredText += ("<body style='color:purple;'/>" + printStatement);
+        }/*
         if (identStatement.length()>0){
 
         }
@@ -197,10 +240,12 @@ public class Main extends Application {
     }
 
     public void codeChecker(String in){
-
+        in = in.substring(1);
+        System.out.println(in);
     int loc =  0; //only used for initialization
         for (int i = 0; i < in.length(); i++) {
             char c = in.charAt(i);
+            //boolean prevComma = false; //initializes the boolean
 
             switch (c){
                 case 'v':
@@ -297,6 +342,11 @@ public class Main extends Application {
                 case '-':
                     loc = 16;
                     break;
+
+                case ',':
+                    loc = 11;
+                    break;
+
             }
 
             try {
@@ -305,34 +355,12 @@ public class Main extends Application {
             } catch (ArrayIndexOutOfBoundsException ex) {
                 state = q50;
             }
-
-
-          if (state == q5){
-            varStatement = in;
-            System.out.println("var " + in);
-        } else if (state == q18){
-            printStatement = in;
-            System.out.println("print " + in);
-        } else if (state == q28){
-            identStatement = in;
-            System.out.println("ident " + in);
-        } else if (state == q29){
-            intStatement = in;
-            System.out.println("int " + in);
-        } else if (state == q35){
-            stringStatement = in;
-            System.out.println("string " + in);
-        } else if (state == q41){
-            commentStatement = in;
-            System.out.println("comment " + in);
-        } else if (state == q50){
-            errorStatement = in;
-            System.out.println("error " + in);
-        }
-
+            statementSorter(in);
 
         }
+
         colorizer();
+
         }
 
     static private int[][] delta =
@@ -343,7 +371,7 @@ public class Main extends Application {
                     { q1, q24, q24,  q6, q24, q24, q24, q24, q50, q50, q50, q50, q50, q50, q50, q36, q50}, //q0
                     {q24,  q2, q24, q24, q24, q24, q24, q24, q50, q50, q50, q50, q50, q50, q50, q50, q50}, //q1
                     {q24, q24,  q3, q24, q24, q24, q24, q24, q50, q50, q50, q50, q50, q50, q50, q50, q50}, //q2
-                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50,  q4, q50, q50, q50, q50, q50}, //3
+                    {q50, q50, q50, q50, q50, q50, q50, q50, q50, q50, q50,  q4, q50, q50, q50, q50, q50}, //q3
                     { q5,  q5,  q5,  q5,  q5,  q5,  q5,  q5, q50, q50, q50, q50, q50, q50, q50, q50, q50}, //q4
                     { q5,  q5,  q5,  q5,  q5,  q5,  q5,  q5, q50, q50, q50,  q0, q50, q50, q50, q36, q50}, //q5
                     {q24, q24,  q7, q24, q24, q24, q24, q24, q50, q50, q50, q50, q50, q50, q50, q50, q50}, //q6
