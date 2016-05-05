@@ -1,0 +1,1 @@
+var rating *- Michael loves formal languages and computability -* rating = " is the rating michael would give doctor rivas on a scale one to ten for his teaching " print ( 10 + rating )

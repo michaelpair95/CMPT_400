@@ -1,0 +1,1 @@
+*- this prints a thing -* print ( 10+90+" is the amount of things " ) 

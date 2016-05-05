@@ -1,6 +1,14 @@
 package sample;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
+/**
+ * file: Main.java
+ * author: Michael Pair
+ * course: CMPT 440
+ * due date: May 2, 2016
+ * version: 1.0
+ */
+
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
@@ -24,7 +32,6 @@ import javafx.event.EventHandler;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.scene.text.Text;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.util.*;
 
@@ -158,6 +165,7 @@ public class Main extends Application {
 
     private void eliminateHTMLTags(String temp) {
 
+        //gets rid of HTML tags from the pulled code
             Pattern pattern = Pattern.compile("<[^>]*>");
             Matcher matcher = pattern.matcher(temp);
             final StringBuffer sb = new StringBuffer(temp.length());
@@ -176,101 +184,91 @@ public class Main extends Application {
 
     public void statementSorter(String in){
 
-        //this splits the different statements into groups of statements
+        //sorts the program into its different types
         splitText = in.split(",");
 
 
-            if (state == q5) { // TODO: working
+            if (state == q5) {
 
                  varColorizer(splitText[icounter]);
                 System.out.println("var: " + splitText[icounter]);
 
-            } else if (state == q18) { // TODO: working
-
+            } else if (state == q18) {
                 printColorizer(splitText[icounter]);
 
                 System.out.println("print: " + splitText[icounter]);
 
-            } else if (state == q28) { // TODO: CHECK
+            } else if (state == q28) {
                 identColorizer(splitText[icounter]);
 
                 System.out.println("ident: " + splitText[icounter]);
 
-            } else if (state == q29) {// TODO: working
+            } else if (state == q29) {
                 intColorizer(splitText[icounter]);
 
                 System.out.println("int: " + splitText[icounter]);
 
-            } else if (state == q35) { // TODO: working
+            } else if (state == q35) {
                 stringColorizer(splitText[icounter]);
 
                 System.out.println("string: " + splitText[icounter]);
 
-            } else if (state == q41) {// TODO: CHECK COLOR SCHEME
+            } else if (state == q41) {
                 commentColorizer(splitText[icounter]);
 
                 System.out.println("comment: " + splitText[icounter]);
 
-            } else if (state == q50) { // TODO: CHECK
+            } else if (state == q50) {
                 errorColorizer(splitText[icounter]);
 
                 System.out.println("error: " + splitText[icounter]);
 
-
-            } /*else if (state != q5 || state != q18 || state != q28 || state != q29 || state != q35 || state != q41 || state != q50) {
-                System.out.println("counter: " + icounter);
-                errorColorizer(splitText[icounter]);
-                if (splitText.length > icounter){
-                    icounter += 1;
-                }
-                System.out.println("error: " + splitText[icounter - 1]);
-            }*/
-
+            }
     }
 
-    /*
-    <html dir="ltr"><head></head><body contenteditable="true">
 
-    <p><font face="Lucida Grande" color="#669966">var x</font></p>
-
-    <p><font face="Lucida Grande" color="#331a80">print ( y )</font></p>
-
-    </body></html>
-
-
-     */
 
     public void varColorizer(String in){
+        //Gives color to var statements
+
         coloredText += "<p><font face=\"Lucida Grande\" color=\"#002bff\">" + in + "</font></p>";
     }
 
     public void printColorizer(String in){
+        //Gives color to print statements
         coloredText += "<p><font face=\"Lucida Grande\" color=\"#7c00ff\">" + in + "</font></p>";
     }
 
     public void identColorizer(String in){
+        //Gives color to integer statements
         coloredText += "<p><font face=\"Lucida Grande\" color=\"#00ff45\">" + in + "</font></p>";
     }
 
     public void intColorizer(String in){
+        //Gives color to int statements
         coloredText += "<p><font face=\"Lucida Grande\" color=\"#00ecff\">" + in + "</font></p>";
     }
 
     public void stringColorizer(String in){
+        //Gives color to string statements
         coloredText += "<p><font face=\"Lucida Grande\" color=\"#ffb400\">" + in + "</font></p>";
     }
 
     public void commentColorizer(String in){
+        //Gives color to comments
         coloredText += "<p><font face=\"Lucida Grande\" color=\"#8d8d8d\" style=\"background-color: ##fff400 \">" + in + "</font></p>";
     }
 
     public void errorColorizer(String in){
+        //Gives color to errors
         coloredText += "<p><font face=\"Lucida Grande\" color=\"#ff0000\">" + in + "</font></p>";
     }
 
 
 
     public void codeChecker(String in){
+
+        //checks the code for errors and makes sure it runs through the DFA properly
         in = in.substring(1);
         System.out.println("in: " + in);
     int loc =  0; //only used for initialization
@@ -403,6 +401,8 @@ public class Main extends Application {
         }
 
     static private int[][] delta =
+
+            // This is the state translation table for the program/ is based on the DFA
             {
                     // A = {a-z} - {v,a,r,p,i,n,t}
                     // 0    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16
